@@ -37,15 +37,15 @@ contract schoolMgn {
     constructor(address _tokenAddress){
         token = IERC20(_tokenAddress);
         
-        levelFees[100] = 1000 * 10**5;
-        levelFees[200] = 2000 * 10**5;
-        levelFees[300] = 3000 * 10**5;
-        levelFees[400] = 4000 * 10**5;
+        levelFees[100] = 1000 * 10**18;
+        levelFees[200] = 2000 * 10**18;
+        levelFees[300] = 3000 * 10**18;
+        levelFees[400] = 4000 * 10**18;
 
-        levelSalary[100] = 100 * 10**2;
-        levelSalary[200] = 200 * 10**2;
-        levelSalary[300] = 300 * 10**2;
-        levelSalary[400] = 400 * 10**2;
+        levelSalary[100] = 100 * 10**18;
+        levelSalary[200] = 200 * 10**18;
+        levelSalary[300] = 300 * 10**18;
+        levelSalary[400] = 400 * 10**18;
     }
 
     function registerStudent(string memory _name, uint _level) external {
