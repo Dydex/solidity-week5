@@ -9,8 +9,6 @@ contract ERC20{
 
     mapping(address => uint) balances;
     mapping(address => mapping(address => uint)) allowances;
-    // allowances[owner1][spender1] = 20
-    // allowances[owner1][spender2] = 30
 
     event Transfer(address indexed _from, address indexed _to, uint indexed _value);
     event Approval(address indexed _owner, address indexed _spender, uint indexed _value);
