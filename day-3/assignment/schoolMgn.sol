@@ -3,6 +3,7 @@ pragma solidity ^0.8.3;
 
 import "./IERC20.sol";
 
+
 contract schoolMgn {
     IERC20 public token;
 
@@ -52,7 +53,7 @@ contract schoolMgn {
 
       require(msg.sender != address(0), "Invalid Address");
      
-      require(token.transferFrom(msg.sender, address(this), _fee), "Deposit failed"); 
+      token.transferFrom(msg.sender, address(this), _fee);
 
       studentId += 1;
 
@@ -94,10 +95,8 @@ contract schoolMgn {
         "Insufficient balance"
     );
 
-    require(
-        token.transfer(_staffAddress, salary),
-        "Salary transfer failed"
-    );
+    
+        token.transfer(_staffAddress, salary);
 
     staff.paidSalary = true;
 }
