@@ -47,7 +47,7 @@ contract schoolMgn {
         levelSalary[400] = 400 * 10**2;
     }
 
-    function registerStudent(string memory _name, uint _level) external payable {
+    function registerStudent(string memory _name, uint _level) external {
       uint _fee = levelFees[_level];  
 
       require(msg.sender != address(0), "Invalid Address");
