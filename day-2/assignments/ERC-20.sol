@@ -48,7 +48,7 @@ contract ERC20{
         require(_to != address(0) && _to != _owner, 'Invalid Address');
         require(_amount <= allowances[_owner][msg.sender], 'Insufficient allowance');
         allowances[_owner][msg.sender] -= _amount;
-        balances[_owner] -= _amount;
+            balances[_owner] -= _amount;
         balances[_to] += _amount;
         emit Transfer(_owner, _to, _amount);
         return success;
