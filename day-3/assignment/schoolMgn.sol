@@ -7,6 +7,8 @@ import "./IERC20.sol";
 contract schoolMgn {
     IERC20 public token;
 
+    address constant tokenAddress = 0x1482717Eb2eA8Ecd81d2d8C403CaCF87AcF04927;
+
     struct Student {
         uint id;
         string name;
@@ -26,6 +28,7 @@ contract schoolMgn {
 
     mapping(uint => uint) public levelFees;
     mapping(uint => uint) public levelSalary;
+    mapping(address => uint) public schoolFees;
 
     Student[] public students;
     Staff[] public staffs;
@@ -34,9 +37,9 @@ contract schoolMgn {
     uint public staffId;
 
 
-    constructor(address _tokenAddress){
-        token = IERC20(_tokenAddress);
-        
+    constructor(){
+        token = IERC20(tokenAddress);
+
         levelFees[100] = 1000 * 10**18;
         levelFees[200] = 2000 * 10**18;
         levelFees[300] = 3000 * 10**18;
@@ -51,9 +54,9 @@ contract schoolMgn {
     function registerStudent(string memory _name, uint _level) external {
       uint _fee = levelFees[_level];  
 
-      require(msg.sender != address(0), "Invalid Address");
-     
-      token.transferFrom(msg.sender, address(this), _fee);
+        require(msg.sender != address(0), "Invalid Address");
+        require(token.balanceOf(msg.sender) >= _fee , "Insufficient Balance");
+        require(token.transferFrom(msg.sender, address(this), _fee));
 
       studentId += 1;
 
@@ -74,31 +77,26 @@ contract schoolMgn {
         staffs.push(staff);
     }
 
-    
-
     function getAllStaffs() external view returns(Staff[] memory) {
         return staffs;
     }
     
     function payStaff(uint _staffId, address _staffAddress) external  {
         require(_staffId > 0 && _staffId <= staffs.length, "Invalid staff ID");
-       
+               
+        Staff storage staff = staffs[_staffId - 1];
 
-    Staff storage staff = staffs[_staffId - 1];
+        require(!staff.paidSalary, "Staff already paid");
 
-    require(!staff.paidSalary, "Staff already paid");
+        uint salary = staff.salary;
 
-    uint salary = staff.salary;
+        require(_staffAddress != address(0), "Invalid Address" );
 
-    require(
-        token.balanceOf(address(this)) >= salary,
-        "Insufficient balance"
-    );
+        require(token.balanceOf(address(this)) >= salary, "Insufficient balance");
 
-    
         token.transfer(_staffAddress, salary);
 
-    staff.paidSalary = true;
-}
+        staff.paidSalary = true;
+    }   
        
-    }
+}
