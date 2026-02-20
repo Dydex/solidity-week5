@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: SEE LICENSE IN LICENSE
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.3;
 
 import "./IERC20.sol";
@@ -6,8 +6,6 @@ import "./IERC20.sol";
 
 contract schoolMgn {
     IERC20 public token;
-
-    address constant tokenAddress = 0x1482717Eb2eA8Ecd81d2d8C403CaCF87AcF04927;
 
     struct Student {
         uint id;
@@ -37,8 +35,9 @@ contract schoolMgn {
     uint public staffId;
 
 
-    constructor(){
-        token = IERC20(tokenAddress);
+    constructor(address _tokenAddress){
+       
+        token = IERC20(_tokenAddress);
 
         levelFees[100] = 1000 * 10**18;
         levelFees[200] = 2000 * 10**18;
@@ -55,8 +54,9 @@ contract schoolMgn {
       uint _fee = levelFees[_level];  
 
         require(msg.sender != address(0), "Invalid Address");
+        require(_fee > 0, "Invalid level");
         require(token.balanceOf(msg.sender) >= _fee , "Insufficient Balance");
-        require(token.transferFrom(msg.sender, address(this), _fee));
+       token.transferFrom(msg.sender, address(this), _fee);
 
       studentId += 1;
 
@@ -93,7 +93,7 @@ contract schoolMgn {
         require(_staffAddress != address(0), "Invalid Address" );
 
         require(token.balanceOf(address(this)) >= salary, "Insufficient balance");
-
+        
         token.transfer(_staffAddress, salary);
 
         staff.paidSalary = true;
