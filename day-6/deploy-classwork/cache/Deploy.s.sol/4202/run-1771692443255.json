@@ -1,0 +1,19 @@
+{
+  "transactions": [
+    {
+      "rpc": "https://lisk-sepolia.drpc.org"
+    },
+    {
+      "rpc": "https://lisk-sepolia.drpc.org"
+    },
+    {
+      "rpc": "https://lisk-sepolia.drpc.org"
+    },
+    {
+      "rpc": "https://lisk-sepolia.drpc.org"
+    },
+    {
+      "rpc": "https://lisk-sepolia.drpc.org"
+    }
+  ]
+}
